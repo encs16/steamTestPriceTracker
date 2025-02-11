@@ -1,0 +1,28 @@
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # Runs every day at 6 PM ET (1 PM UTC)
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  post-to-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Read Steam Prices Update
+        id: read_prices
+        run: |
+          echo "STEAM_MESSAGE<<EOF" >> $GITHUB_ENV
+          cat notification.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Send to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\": \"${{ env.STEAM_MESSAGE }}\"}" \
+            $DISCORD_WEBHOOK
