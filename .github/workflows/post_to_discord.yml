@@ -20,9 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Run Steam Price Tracker
-        run: python steam_tracker.py
+        
 
       - name: Read notification file into environment variable
         run: echo "STEAM_MESSAGE=$(jq -Rs . < notification.txt)" >> $GITHUB_ENV
