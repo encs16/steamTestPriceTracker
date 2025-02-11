@@ -1,4 +1,4 @@
-name: Steam Price Tracker
+name: post in discord channel
 
 on:
   schedule:
