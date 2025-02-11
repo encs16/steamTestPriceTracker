@@ -1,28 +1,34 @@
+name: Steam Price Tracker
 
 on:
   schedule:
-    - cron: '0 13 * * *'  # Runs every day at 6 PM ET (1 PM UTC)
-  workflow_dispatch:  # Allows manual trigger
+    - cron: "0 13 * * *"
+  workflow_dispatch:  
 
 jobs:
-  post-to-discord:
+  track_steam_prices:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Read Steam Prices Update
-        id: read_prices
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Steam Price Tracker
+        run: python steam_tracker.py
+
+      - name: Read notification file into environment variable
+        run: echo "STEAM_MESSAGE=$(jq -Rs . < notification.txt)" >> $GITHUB_ENV
+
+      - name: Send Steam Prices to Discord
         run: |
-          echo "STEAM_MESSAGE<<EOF" >> $GITHUB_ENV
-          cat notification.txt >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-      - name: Send to Discord
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: |
-          curl -H "Content-Type: application/json" \
-            -X POST \
-            -d "{\"content\": \"${{ env.STEAM_MESSAGE }}\"}" \
-            $DISCORD_WEBHOOK
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": $STEAM_MESSAGE}" \
+          ${{ secrets.DISCORD_WEBHOOK }}
