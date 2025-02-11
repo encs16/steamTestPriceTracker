@@ -13,17 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-        
-
       - name: Read notification file into environment variable
-        run: echo "STEAM_MESSAGE=$(jq -Rs . < notification.txt)" >> $GITHUB_ENV
+        run: echo "STEAM_MESSAGE=notification.json >> $GITHUB_ENV
 
       - name: Send Steam Prices to Discord
         run: |
