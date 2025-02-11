@@ -13,11 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Read notification file into environment variable
-        run: echo "STEAM_MESSAGE=notification.json >> $GITHUB_ENV
-
       - name: Send Steam Prices to Discord
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d "{"content": $STEAM_MESSAGE}" \
+          -d "@notification.json \
           ${{ secrets.DISCORD_WEBHOOK }}
