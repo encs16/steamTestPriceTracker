@@ -65,14 +65,17 @@ In your **GitHub repository settings**, add a secret named:
 
 ### 1. Create a Personal access token
 
+![Pasted image 20250211205932](https://github.com/user-attachments/assets/e7d1af48-dbb9-4ce7-8430-f7a4f05a6ee7)
 
 
 ### 2. Get the webhook URL from Discord
 
+![Pasted image 20250211210244](https://github.com/user-attachments/assets/923b1bbd-287a-4d83-9004-842bd59f3eb7)
 
 
 ### 3. Setup secrets for the token and the webhook
 
+![Pasted image 20250211210146](https://github.com/user-attachments/assets/dae618a7-8861-4d40-92e7-5736005c8380)
 
 ---
 
@@ -145,6 +148,9 @@ jobs:
 ## Test the GitHub Action
 
 ### 1. Action completed
+![Pasted image 20250211210323](https://github.com/user-attachments/assets/82cc690b-4bce-4935-8cac-45667b2c2357)
 
 ### 2. Message posted in discord channel
+![Pasted image 20250211210333](https://github.com/user-attachments/assets/acfbe565-3cbe-430d-8339-36cd8191ec09)
+
 
