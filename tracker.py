@@ -7,13 +7,13 @@ STEAM_TOP_SELLERS_URL = "https://store.steampowered.com/search/?filter=topseller
 STEAM_API_URL = "https://store.steampowered.com/api/appdetails?appids={}&cc=us"
 PRICE_FILE = "steam_prices.json"
 
-# Get the top 30 games on the top seller section on Steam
+
 def get_top_sellers():
     response = requests.get(STEAM_TOP_SELLERS_URL, headers={"User-Agent": "Mozilla/5.0"})
     soup = BeautifulSoup(response.text, "html.parser")
 
     games = {}
-    for result in soup.select(".search_result_row")[:30]:  # Get top 30 games
+    for result in soup.select(".search_result_row")[:30]:  
         name = result.select_one(".title").text.strip()
         appid = result["data-ds-appid"]
         games[name] = appid
@@ -47,7 +47,7 @@ except FileNotFoundError:
 # Get top sellers & check prices
 games = get_top_sellers()
 new_prices = {}
-message_list = []  # List to store lines of the message
+message_list = []  
 
 for game, appid in games.items():
     price_info = get_steam_price(appid)
@@ -55,21 +55,18 @@ for game, appid in games.items():
         price, discount = price_info
 
         prev_price = previous_prices.get(game, float("inf"))
-        if isinstance(prev_price, dict):  # Ensure previous price is a float
+        if isinstance(prev_price, dict):  
             prev_price = prev_price.get("USD", float("inf"))
 
         new_prices[game] = price  # Store only the new USD price
         
         if price < prev_price:
-            message_list.append(f"{game}: Now ${price:.2f} (Previous: ${prev_price:.2f}) - {discount}% OFF!")
+            message_list.append(f"• **{game}**: Now ${price:.2f} (Previous: ${prev_price:.2f}) - {discount}% OFF!")
         else:
-            message_list.append(f"{game}: ${price:.2f} (No change)")
+            message_list.append(f"• **{game}**: ${price:.2f}")
 
-# Save updated prices
-with open(PRICE_FILE, "w") as f:
-    json.dump(new_prices, f, indent=4)
 
-# Save message for GitHub Actions
+# Save json file to post through discord webhook
 notification_data = {"content": "\n".join(message_list)}
 
 with open("notification.json", "w", encoding="utf-8") as f:
