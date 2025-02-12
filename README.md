@@ -1,5 +1,3 @@
-Here's a **README.md** file for your **Steam Price Tracker** project. It provides an overview, setup instructions, and usage details.
-
 ---
 
 ## 🕹️ Steam Price Tracker
@@ -67,14 +65,14 @@ In your **GitHub repository settings**, add a secret named:
 
 ### 1. Create a Personal access token
 
-![[Pasted image 20250211205932.png]]
+
 
 ### 2. Get the webhook URL from Discord
 
-![[Pasted image 20250211210244.png]]
+
 
 ### 3. Setup secrets for the token and the webhook
-![[Pasted image 20250211210146.png]]
+
 
 ---
 
@@ -147,6 +145,6 @@ jobs:
 ## Test the GitHub Action
 
 ### 1. Action completed
-![[Pasted image 20250211210323.png]]
+
 ### 2. Message posted in discord channel
-![[Pasted image 20250211210333.png]]
+
